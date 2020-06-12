@@ -25,7 +25,7 @@ def captcha_handler(captcha):
     # Пробуем снова отправить запрос с капчей
     return captcha.try_again(key)
 
-token = open("token.txt").read()
+token = open("token.txt").read().strip()
 vk_session = vk_api.VkApi(token=token, captcha_handler=captcha_handler)
 vk = vk_session.get_api()
 
