@@ -190,11 +190,11 @@ class AnswerThread(Thread):
 
                         answerRequest = re.search("[DT]\d\d?\.\d\d?", event.message.text)
                         if answerRequest != None:
-                            answerTheoremDefinition(answerRequest.group(0), peer_id=peer_id)
+                            Thread(target=answerTheoremDefinition, args=(answerRequest.group(0), peer_id,)).start()
                         
                         randomRequest = re.search("rand(.*D.*T|.*T.*D|.*T|.*D|)", event.message.text)
                         if randomRequest != None:
-                            answerRand(randomRequest.group(0), peer_id)
+                            Thread(target=answerRand, args=(randomRequest.group(0), peer_id,)).start()
             except Exception as e:
                 log.error("Answer error - " + str(e))
 
@@ -202,7 +202,7 @@ class AnswerThread(Thread):
 # The main code
 ###############################################
 AnswerThread().start()
-AskThread().start()
+#AskThread().start()
 while True:
     try:
         command = input().split()
